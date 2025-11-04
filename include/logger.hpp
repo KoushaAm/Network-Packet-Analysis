@@ -15,8 +15,9 @@ class Logger {
 
 public:
     std::string filename;
+    bool rewriteCSV; 
 
-    Logger(const std::string & filename);
+    Logger(const std::string & filename, bool rewriteCSV = false);
     ~Logger();
 
     void logPacket(const Packet & pkt);

@@ -12,7 +12,7 @@
 using namespace std;
 
 static Display display;
-static Logger logger("packets.csv");
+static Logger logger("packets.csv", true);
 
 
 bool Sniffer::init() {
@@ -29,7 +29,7 @@ bool Sniffer::init() {
     }
 
     if (pcap_datalink(handle) != DLT_EN10MB) {
-        cerr << "Device " << interfaceName << " does not provide Ethernet headers - not supported\n";
+        cerr << "Device " << interfaceName << " does not provide Ethernet headers (not supported)\n";
         pcap_close(handle);
         return false; 
     }
@@ -54,7 +54,7 @@ Sniffer::Sniffer(const string& interfaceName) {
 
     this->interfaceName = interfaceName;
     this->handle = nullptr;
-    // Initialize errbuf to zero
+    // initialize errbuf to zero
     memset(errbuf, 0, PCAP_ERRBUF_SIZE);
     init();
     
@@ -83,14 +83,7 @@ void Sniffer::packetHandler(u_char *args, const struct pcap_pkthdr *header, cons
     std::stringstream ts;
     ts << std::put_time(std::localtime(&now), "%Y-%m-%d %H:%M:%S");
     pkt.timestamp = ts.str();
-    
-    // cout << pkt.protocol << " "
-    //      << pkt.srcIP << ":" << pkt.srcPort
-    //      << " -> "
-    //      << pkt.dstIP << ":" << pkt.dstPort
-    //      << " (" << pkt.length << " bytes)"
-    //      << " at " << pkt.timestamp
-    //      << endl;
+
     display.printPacket(pkt);
     logger.logPacket(pkt);
 

@@ -19,17 +19,25 @@ Logger::~Logger() {
     this->filename = "";
 }
 
-Logger::Logger(const std::string & filename) {
+Logger::Logger(const std::string & filename, bool rewriteCSV) {
     // open csv log file 
-    std::ofstream csv(filename, std::ios::app);
-    if (!csv.is_open()) {
-        std::cerr << "Failed to open log file: " << filename << std::endl;
-    } else {
-        // if file is new
-        if (csv.tellp() == 0) {
-            csv << "timestamp,protocol,src_ip,src_port,dst_ip,dst_port,length\n";
+    if (rewriteCSV) {
+        std::ofstream csv(filename);
+        if (csv.is_open()) {
+            csv << "Timestamp,Protocol,SrcIP,SrcPort,DstIP,DstPort,Length\n";
+            csv.close();
+        } else {
+            std::ofstream csv(filename, std::ios::app);
+            if (!csv.is_open()) {
+                std::cerr << "Failed to open log file: " << filename << std::endl;
+            } else {
+                // if file is new
+                if (csv.tellp() == 0) {
+                    csv << "timestamp,protocol,src_ip,src_port,dst_ip,dst_port,length\n";
+                }
+                csv.close();
+            }
         }
-        csv.close();
     }
 }
 
