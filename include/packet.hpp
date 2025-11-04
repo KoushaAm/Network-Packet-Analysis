@@ -15,6 +15,7 @@ public:
     uint16_t dstPort = 0;
     std::string protocol;
     uint32_t length = 0;
+    std::string timestamp;
 
     // constructor
     void parse(const u_char* data, size_t length);
@@ -26,6 +27,7 @@ private:
     void parseTCP(const u_char* data);
     void parseUDP(const u_char* data);
     void parseICMP(const u_char* data);
+    
 };
 
 #endif 

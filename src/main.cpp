@@ -1,7 +1,7 @@
 // main.cpp
 #include <iostream>
 #include <pcap.h>
-#include "packet.hpp"
+#include "sniffer.hpp"
 
 
 int main(int argc, char* argv[]) {
@@ -10,6 +10,15 @@ int main(int argc, char* argv[]) {
         std::cerr << "Example: sudo " << argv[0] << " en0\n";
         return 1;
     }
+
+    
+    std::string interface = argv[1];
+    Sniffer sniffer(interface);
+    sniffer.startCapture();
+
+    
+
+
 
     return 0;
 }
