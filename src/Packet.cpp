@@ -48,7 +48,8 @@ void Packet::parseIP(const u_char* data) {
     uint8_t protocol = ipHeader->ip_p;
 
     // ipHeader->ip_hl * 4: length of the ip header in bytes
-    // data + ipHeader->ip_hl * 4: pointer to the next protocol header
+    // data + ipHeader->ip_hl * 4: pointer to the next protocol header 
+    // (grabs the payload after IP header that is TCP/UDP/ICMP header)
     if (protocol == IPPROTO_TCP) {
         this->protocol = "TCP";
         parseTCP(data + ipHeader->ip_hl * 4);
