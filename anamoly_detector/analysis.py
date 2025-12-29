@@ -70,7 +70,7 @@ model.fit(X_normal)
 
 
 
-# evaluating on your 3 datasets
+# evaluating on 3 datasets
 test_files = {
     "malformed": "../data/extraction/out/packets_malformed.csv",
     "syn_scan": "../data/extraction/out/packets_syn_scan.csv",
@@ -80,7 +80,7 @@ test_files = {
 for name, path in test_files.items():
     df_test, X_test = load_and_prepare(path)
 
-    # IsolationForest in pipeline is model.named_steps["clf"]
+    
     scores = model.named_steps["clf"].decision_function(
         model.named_steps["scaler"].transform(X_test)
     )
@@ -88,7 +88,8 @@ for name, path in test_files.items():
         model.named_steps["scaler"].transform(X_test)
     )
 
-    # 1 = normal, -1 = anomaly
+    # 1 = normal
+    # -1 = anomaly
     df_test["anomaly_label"] = labels        
     df_test["anomaly_score"] = -scores       
 
